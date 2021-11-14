@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "QuessEngine",
+        "repositoryURL": "https://github.com/autoreleasefool/quess-engine",
+        "state": {
+          "branch": "main",
+          "revision": "1263516c0b65471231cf546774204b97cdb08eb6",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

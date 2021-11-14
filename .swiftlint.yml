@@ -1,0 +1,16 @@
+excluded:
+  - .build
+
+trailing_comma:
+  mandatory_comma: true
+
+identifier_name:
+  excluded:
+    - i
+    - id
+    - x
+    - y
+    - from
+    - to
+    - in
+
