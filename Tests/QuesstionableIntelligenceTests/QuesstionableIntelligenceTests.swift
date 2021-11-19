@@ -6,6 +6,6 @@ final class QuesstionableIntelligenceTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(QuesstionableIntelligence().text, "Hello, World!")
+//        XCTAssertEqual(QuesstionableIntelligence().text, "Hello, World!")
     }
 }

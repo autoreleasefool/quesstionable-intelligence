@@ -5,22 +5,23 @@ import PackageDescription
 
 let package = Package(
     name: "QuesstionableIntelligence",
-    products: [
-        .library(
-            name: "QuesstionableIntelligence",
-            targets: ["QuesstionableIntelligence"]
-        ),
+    platforms: [
+      .iOS(.v13),
+      .macOS(.v10_15),
+      .tvOS(.v13),
+      .watchOS(.v6),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
          .package(url: "https://github.com/autoreleasefool/quess-engine", branch: "main"),
+         .package(url: "https://github.com/vapor/console-kit", from: "4.0.0"),
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
-        .target(
+        .executableTarget(
             name: "QuesstionableIntelligence",
-            dependencies: []
+            dependencies: [
+              .product(name: "ConsoleKit", package: "console-kit"),
+              .product(name: "QuessEngine", package: "quess-engine"),
+            ]
         ),
         .testTarget(
             name: "QuesstionableIntelligenceTests",
