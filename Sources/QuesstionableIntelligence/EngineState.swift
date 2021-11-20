@@ -17,6 +17,7 @@ class EngineState {
   var isRunning: Bool = true
   var depth: Int = 3
 
+  private(set) var bestMove: Movement?
   private var cancellable: AnyCancellable?
 
   init(game: GameState, ctx: CommandContext) {
@@ -26,10 +27,14 @@ class EngineState {
     self.cancellable = actor.bestMove
       .receive(on: queue)
       .sink { [weak self] movement in
-        if let movement = movement {
-          self?.ctx.console.output("Best move so far: \(movement.notation)")
+        guard let self = self else { return }
+        self.bestMove = movement
+        if !self.actor.isRunning {
+          self.printBestMove()
         }
       }
+
+    self.restartEvaluation()
   }
 
   func printBoard(compact: Bool = false) {
@@ -37,7 +42,19 @@ class EngineState {
   }
 
   func restartEvaluation() {
-    actor.evaluate(state: game)
+    if let endState = game.endState {
+      ctx.console.output("Game over: \(endState)".consoleText(.success))
+    } else {
+      actor.evaluate(state: game, depth: depth)
+    }
+  }
+
+  func printBestMove() {
+    if let bestMove = bestMove {
+      ctx.console.output("Best move: \(bestMove.notation)".consoleText(.success))
+    } else {
+      ctx.console.output("No moves found".consoleText(.error))
+    }
   }
 
 }

@@ -6,6 +6,9 @@ import QuessEngine
 
 class Evaluator {
 
+  static let mateValue = 1_000_000_000
+  static let mateThreshold = 999_000_000
+
   private static let pieceValue: [Piece.Class: Int] = [
     .triangle: 100,
     .circle: 320,
@@ -49,8 +52,8 @@ class Evaluator {
 
   // swiftlint:enable all
 
-  func rankMoves(_ movements: [Movement], in state: GameState) -> [Movement] {
-    movements
+  func rankMoves(in state: GameState) -> [Movement] {
+    state.allPossibleMoves()
       .sorted { rankMovement($0, in: state) < rankMovement($1, in: state) }
       .reversed()
   }

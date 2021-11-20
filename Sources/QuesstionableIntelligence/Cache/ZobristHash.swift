@@ -49,6 +49,15 @@ class ZobristHash {
     return h
   }
 
+  func update(
+    hash: Int,
+    state: GameState,
+    move: Movement
+  ) -> Int {
+    guard let from = state.board.position(ofPiece: move.piece) else { return hash }
+    return update(hash: hash, byMoving: move.piece, from: from, to: move.to, in: state)
+  }
+
   // swiftlint:enable identifier_name
 
 }

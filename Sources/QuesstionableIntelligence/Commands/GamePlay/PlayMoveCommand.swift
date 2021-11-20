@@ -3,7 +3,6 @@
 //
 
 import ConsoleKit
-import Foundation
 import QuessEngine
 
 struct PlayMoveCommand: RunnableCommand {
