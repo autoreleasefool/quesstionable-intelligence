@@ -12,8 +12,8 @@ struct ShowCommand: RunnableCommand {
     "show"
   }
 
-  static var shortName: String? {
-    "s"
+  static var aliases: [String] {
+    ["s"]
   }
 
   private let compact: Bool
@@ -25,4 +25,5 @@ struct ShowCommand: RunnableCommand {
   func run(_ state: EngineState) throws {
     state.printBoard(compact: compact)
   }
+
 }

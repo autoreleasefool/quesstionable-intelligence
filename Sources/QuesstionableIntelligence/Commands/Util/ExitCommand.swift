@@ -10,8 +10,8 @@ struct ExitCommand: RunnableCommand {
     "exit"
   }
 
-  static var shortName: String? {
-    "e"
+  static var aliases: [String] {
+    ["e"]
   }
 
   init?(_ name: String, input: String?) {}

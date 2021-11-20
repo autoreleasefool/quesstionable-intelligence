@@ -12,8 +12,8 @@ struct PlayMoveCommand: RunnableCommand {
     "play"
   }
 
-  static var shortName: String? {
-    "p"
+  static var aliases: [String] {
+    ["p"]
   }
 
   let movement: Movement
@@ -32,4 +32,5 @@ struct PlayMoveCommand: RunnableCommand {
 
     state.printBoard()
   }
+
 }

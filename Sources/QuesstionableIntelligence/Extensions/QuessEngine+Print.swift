@@ -60,16 +60,6 @@ extension Optional where Wrapped == Piece {
 
 }
 
-//     -----------------------------
-//  6 |    |    |    | ▲1 | ●1 | ■  |
-//  5 |    |    |    |    | ▲2 | ●2 |
-//  4 |    |    |    |    |    | ▲3 |
-//  3 | △1 |    |    |    |    |    |
-//  2 | ○1 | △2 |    |    |    |    |
-//  1 | □  | ○2 | △3 |    |    |    |
-//     -----------------------------
-//      A    B    C    D    E    F
-
 extension Board {
 
   private func rankToString(_ rank: Int, compact: Bool) -> String {
@@ -83,12 +73,12 @@ extension Board {
   func toString(compact: Bool = false) -> String {
     [
       "     -----------------------\(compact ? "" : "------") ",
-      "  6 |\(rankToString(5, compact: compact))|",
-      "  5 |\(rankToString(4, compact: compact))|",
-      "  4 |\(rankToString(3, compact: compact))|",
-      "  3 |\(rankToString(2, compact: compact))|",
-      "  2 |\(rankToString(1, compact: compact))|",
-      "  1 |\(rankToString(0, compact: compact))|",
+      "  6 |\(rankToString(0, compact: compact))|",
+      "  5 |\(rankToString(1, compact: compact))|",
+      "  4 |\(rankToString(2, compact: compact))|",
+      "  3 |\(rankToString(3, compact: compact))|",
+      "  2 |\(rankToString(4, compact: compact))|",
+      "  1 |\(rankToString(5, compact: compact))|",
       "     -----------------------\(compact ? "" : "------") ",
       "      \(["A", "B", "C", "D", "E", "F"].joined(separator: compact ? "   " : "    "))   ",
     ].joined(separator: "\n")

@@ -8,7 +8,7 @@ import QuessEngine
 
 protocol RunnableCommand {
   static var name: String { get }
-  static var shortName: String? { get }
+  static var aliases: [String] { get }
 
   init?(_ name: String, input: String?)
   func run(_ state: EngineState) throws
@@ -20,13 +20,14 @@ struct RunnableCommandParser {
     let runnableCommands: [RunnableCommand.Type] = [
       PlayMoveCommand.self,
       ShowCommand.self,
+      ListMovesCommand.self,
       ExitCommand.self,
     ]
 
     let (name, input) = extractNameAndInput(from: input)
 
     let firstRunnableCommand = runnableCommands.firstNonNil { commandType -> RunnableCommand? in
-      guard commandType.name == name || commandType.shortName == name else { return nil }
+      guard commandType.name == name || commandType.aliases.contains(name) else { return nil }
       return commandType.init(name, input: input)
     }
     return firstRunnableCommand ?? InvalidCommand(name, input: input)

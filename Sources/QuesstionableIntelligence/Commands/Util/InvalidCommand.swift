@@ -11,8 +11,8 @@ struct InvalidCommand: RunnableCommand {
     ""
   }
 
-  static var shortName: String? {
-    nil
+  static var aliases: [String] {
+    []
   }
 
   let command: String
