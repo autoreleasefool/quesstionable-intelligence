@@ -8,7 +8,7 @@ import QuessEngine
 
 class Engine {
 
-  private let queue = DispatchQueue(label: "ca.josephroque.Quesstionable.Engine")
+  private let queue = DispatchQueue(label: "qi.Engine")
 
   private let state: EngineState
 

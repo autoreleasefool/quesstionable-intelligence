@@ -30,6 +30,7 @@ struct PlayMoveCommand: RunnableCommand {
       state.ctx.console.output("Invalid move not accepted".consoleText(.error))
     }
 
+    state.restartEvaluation()
     state.printBoard()
   }
 
