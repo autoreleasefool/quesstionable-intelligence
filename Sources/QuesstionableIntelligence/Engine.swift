@@ -13,7 +13,7 @@ class Engine {
   private let state: EngineState
 
   init(state: GameState, context: CommandContext) {
-    self.state = EngineState(state: state, ctx: context)
+    self.state = EngineState(game: state, ctx: context)
   }
 
   func runLoop() {
@@ -36,7 +36,9 @@ class Engine {
     }
 
     let command = state.ctx.console.ask("Enter a command:".consoleText(.info))
-    let commandToRun = RunnableCommandParser.from(input: command)
+    let commandToRun = RunnableCommandParser.from(
+      input: command.trimmingCharacters(in: .whitespacesAndNewlines)
+    )
     try commandToRun.run(state)
 
     runLoop()

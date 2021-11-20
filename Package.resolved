@@ -11,11 +11,11 @@
         }
       },
       {
-        "package": "QuessEngine",
+        "package": "quess-engine",
         "repositoryURL": "https://github.com/autoreleasefool/quess-engine",
         "state": {
           "branch": "main",
-          "revision": "34a5dade991cafceb9c12239378f295e35bd6cd9",
+          "revision": "33301e9af6551ecc5cd8e290c3d48fd2cb3dbed6",
           "version": null
         }
       },

@@ -10,7 +10,7 @@ protocol RunnableCommand {
   static var name: String { get }
   static var shortName: String? { get }
 
-  init?(_ string: String)
+  init?(_ name: String, input: String?)
   func run(_ state: EngineState) throws
 }
 
@@ -18,10 +18,29 @@ struct RunnableCommandParser {
 
   static func from(input: String) -> RunnableCommand {
     let runnableCommands: [RunnableCommand.Type] = [
+      PlayMoveCommand.self,
+      ShowCommand.self,
+      ExitCommand.self,
     ]
 
-    let firstRunnableCommand = runnableCommands.firstNonNil { $0.init(input) }
-    return firstRunnableCommand ?? InvalidCommand(input)
+    let (name, input) = extractNameAndInput(from: input)
+
+    let firstRunnableCommand = runnableCommands.firstNonNil { commandType -> RunnableCommand? in
+      guard commandType.name == name || commandType.shortName == name else { return nil }
+      return commandType.init(name, input: input)
+    }
+    return firstRunnableCommand ?? InvalidCommand(name, input: input)
+  }
+
+  private static func extractNameAndInput(from input: String) -> (String, String?) {
+    if let separator = input.firstIndex(of: " ") {
+      return (
+        String(input.prefix(upTo: separator)),
+        String(input.suffix(from: separator)).trimmingCharacters(in: .whitespacesAndNewlines)
+      )
+    } else {
+      return (input, nil)
+    }
   }
 
 }

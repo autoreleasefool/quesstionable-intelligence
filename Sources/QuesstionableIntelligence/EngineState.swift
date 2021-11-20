@@ -7,14 +7,18 @@ import QuessEngine
 
 class EngineState {
 
-  let state: GameState
+  let game: GameState
   let ctx: CommandContext
 
-  var isRunning: Bool = false
+  var isRunning: Bool = true
 
-  init(state: GameState, ctx: CommandContext) {
-    self.state = state
+  init(game: GameState, ctx: CommandContext) {
+    self.game = game
     self.ctx = ctx
+  }
+
+  func printBoard(compact: Bool = false) {
+    ctx.console.output(game.toString(compact: compact).consoleText(.plain))
   }
 
 }
