@@ -94,7 +94,7 @@ class Evaluator {
     case .circle: mapping = piece.owner == .white ? Evaluator.circleValueWhite : Evaluator.circleValueBlack
     }
 
-    return mapping[at.rawValue]
+    return mapping[atPosition.rawValue]
   }
 
   func evaluateState(_ state: GameState) -> Int {

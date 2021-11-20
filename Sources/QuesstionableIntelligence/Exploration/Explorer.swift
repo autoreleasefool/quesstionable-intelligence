@@ -4,7 +4,3 @@
 
 import Foundation
 import QuessEngine
-
-protocol Explorer {
-  func explore(state: GameState) -> [Movement]
-}

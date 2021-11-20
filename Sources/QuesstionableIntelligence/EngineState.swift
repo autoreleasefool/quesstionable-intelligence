@@ -15,6 +15,7 @@ class EngineState {
   private let actor = Actor()
 
   var isRunning: Bool = true
+  var depth: Int = 3
 
   private var cancellable: AnyCancellable?
 
