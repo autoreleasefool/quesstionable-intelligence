@@ -6,7 +6,7 @@ import Combine
 import Foundation
 import QuessEngine
 
-// swiftlint:disable all
+// swiftlint:disable identifier_name cyclomatic_complexity function_parameter_count line_length
 
 class Actor {
 
@@ -32,7 +32,7 @@ class Actor {
     bestMoveSubject
       .eraseToAnyPublisher()
       .receive(on: queue)
-      .filter { [weak self] id, movement in
+      .filter { [weak self] id, _ in
         guard let self = self else { return false }
         return self.queue_jobId == id
       }
@@ -40,8 +40,6 @@ class Actor {
         movement
       }
       .eraseToAnyPublisher()
-
-
   }
 
   func evaluate(state originalState: GameState, depth: Int) {
