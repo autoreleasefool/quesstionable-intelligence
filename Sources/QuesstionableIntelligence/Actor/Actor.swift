@@ -2,11 +2,14 @@
 //  Created by Joseph Roque on 2021-11-19.
 //
 
-import Combine
 import Foundation
 import QuessEngine
 
 // swiftlint:disable identifier_name cyclomatic_complexity function_parameter_count line_length
+
+protocol ActorDelegate: AnyObject {
+  func actor(_ actor: Actor, didDetermineBestMove: Movement?)
+}
 
 class Actor {
 
@@ -19,27 +22,14 @@ class Actor {
   private var queue_isRunning: Bool = false
   private var queue_jobId = UUID()
 
+  weak var delegate: ActorDelegate?
+
   var isRunning: Bool {
     queue.sync { queue_isRunning }
   }
 
   private var currentJob: UUID {
     queue.sync { queue_jobId }
-  }
-
-  private let bestMoveSubject = CurrentValueSubject<(UUID, Movement?), Never>((UUID(), nil))
-  var bestMove: AnyPublisher<Movement?, Never> {
-    bestMoveSubject
-      .eraseToAnyPublisher()
-      .receive(on: queue)
-      .filter { [weak self] id, _ in
-        guard let self = self else { return false }
-        return self.queue_jobId == id
-      }
-      .map { _, movement in
-        movement
-      }
-      .eraseToAnyPublisher()
   }
 
   func evaluate(state originalState: GameState, depth: Int) {
@@ -54,7 +44,7 @@ class Actor {
       let state = GameState()
       history.forEach { state.apply($0) }
 
-      self.bestMoveSubject.send((id, nil))
+      self.sendBestMove(id: id, move: nil)
       self.jobQueue_minimaxRoot(id: id, depth: depth, state: state)
     }
   }
@@ -92,7 +82,7 @@ class Actor {
     queue.async {
       self.queue_isRunning = false
     }
-    bestMoveSubject.send((id, bestMoveFound))
+    self.sendBestMove(id: id, move: bestMoveFound)
   }
 
   private func jobQueue_minimax(
@@ -164,5 +154,10 @@ class Actor {
       }
       return bestMove
     }
+  }
+
+  private func sendBestMove(id: UUID, move: Movement?) {
+    guard currentJob == id else { return }
+    delegate?.actor(self, didDetermineBestMove: move)
   }
 }
