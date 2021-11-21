@@ -13,7 +13,7 @@ struct SetDepthCommand: RunnableCommand {
   }
 
   static var aliases: [String] {
-    ["sd", "d"]
+    ["sd", "d", "depth"]
   }
 
   let depth: Int
