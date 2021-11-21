@@ -15,7 +15,8 @@ class EngineState {
   private let actor = Actor()
 
   var isRunning: Bool = true
-  var depth: Int = 3
+  var depth: Int = 4
+  var preferredNotation: SupportedNotation = .chess
 
   private(set) var bestMove: Movement?
   private var cancellable: AnyCancellable?
@@ -30,7 +31,7 @@ class EngineState {
         guard let self = self else { return }
         self.bestMove = movement
         if !self.actor.isRunning {
-          self.printBestMove()
+          try? self.printBestMove()
         }
       }
 
@@ -38,7 +39,7 @@ class EngineState {
   }
 
   func printBoard(compact: Bool = false) {
-    ctx.console.output(game.toString(compact: compact).consoleText(.plain))
+    ctx.console.output(game.toString(notation: preferredNotation, compact: compact).consoleText(.plain))
   }
 
   func restartEvaluation() {
@@ -49,9 +50,16 @@ class EngineState {
     }
   }
 
-  func printBestMove() {
+  func printBestMove() throws {
     if let bestMove = bestMove {
-      ctx.console.output("Best move: \(bestMove.notation)".consoleText(.success))
+      let notation: String
+      switch preferredNotation {
+      case .chess:
+        notation = bestMove.cNotation
+      case .quess:
+        notation = try bestMove.quessify(withState: game).qNotation
+      }
+      ctx.console.output("Best move: \(notation)".consoleText(.success))
     } else {
       ctx.console.output("No moves found".consoleText(.error))
     }

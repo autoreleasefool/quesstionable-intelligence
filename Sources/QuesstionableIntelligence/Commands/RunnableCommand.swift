@@ -24,6 +24,7 @@ struct RunnableCommandParser {
       SetDepthCommand.self,
       BulkPlayCommand.self,
       BestMoveCommand.self,
+      SetNotationCommand.self,
       ExitCommand.self,
     ]
 

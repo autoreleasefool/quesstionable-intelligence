@@ -17,11 +17,22 @@ struct ListMovesCommand: RunnableCommand {
   }
 
   func run(_ state: EngineState) throws {
-    let moves = state.game
-      .allPossibleMoves()
-      .sorted()
-      .map(\.notation)
-      .joined(separator: "\n")
+    let moves: String
+    switch state.preferredNotation {
+    case .quess:
+      moves = try state.game
+        .allPossibleMoves()
+        .sorted()
+        .quessify(withState: state.game)
+        .map(\.qNotation)
+        .joined(separator: "\n")
+    case .chess:
+      moves = state.game
+        .allPossibleMoves()
+        .sorted()
+        .map(\.cNotation)
+        .joined(separator: "\n")
+    }
     state.ctx.console.output(moves.consoleText(.plain))
   }
 

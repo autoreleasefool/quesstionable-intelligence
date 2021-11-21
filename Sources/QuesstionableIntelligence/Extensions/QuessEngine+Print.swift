@@ -70,17 +70,28 @@ extension Board {
     }.joined(separator: "|")
   }
 
-  func toString(compact: Bool = false) -> String {
-    [
+  func toString(notation: SupportedNotation, compact: Bool = false) -> String {
+    let rows: [String]
+    let columns: [String]
+    switch notation {
+    case .chess:
+      rows = ["6", "5", "4", "3", "2", "1"]
+      columns = ["A", "B", "C", "D", "E", "F", "G"]
+    case .quess:
+      rows = ["A", "B", "C", "D", "E", "F", "G"]
+      columns = ["1", "2", "3", "4", "5", "6"]
+    }
+
+    return [
       "     -----------------------\(compact ? "" : "------") ",
-      "  6 |\(rankToString(0, compact: compact))|",
-      "  5 |\(rankToString(1, compact: compact))|",
-      "  4 |\(rankToString(2, compact: compact))|",
-      "  3 |\(rankToString(3, compact: compact))|",
-      "  2 |\(rankToString(4, compact: compact))|",
-      "  1 |\(rankToString(5, compact: compact))|",
+      "  \(rows[0]) |\(rankToString(0, compact: compact))|",
+      "  \(rows[1]) |\(rankToString(1, compact: compact))|",
+      "  \(rows[2]) |\(rankToString(2, compact: compact))|",
+      "  \(rows[3]) |\(rankToString(3, compact: compact))|",
+      "  \(rows[4]) |\(rankToString(4, compact: compact))|",
+      "  \(rows[5]) |\(rankToString(5, compact: compact))|",
       "     -----------------------\(compact ? "" : "------") ",
-      "      \(["A", "B", "C", "D", "E", "F"].joined(separator: compact ? "   " : "    "))   ",
+      "      \(columns.joined(separator: compact ? "   " : "    "))   ",
     ].joined(separator: "\n")
   }
 
@@ -88,10 +99,18 @@ extension Board {
 
 extension GameState {
 
-  func toString(compact: Bool = false) -> String {
-    [
-      historicalNotation().joined(separator: "; "),
-      board.toString(compact: compact),
+  func toString(notation: SupportedNotation, compact: Bool = false) -> String {
+    let history: String
+    switch notation {
+    case .chess:
+      history = historicalCNotation().joined(separator: "; ")
+    case .quess:
+      history = historicalQNotation().joined(separator: "; ")
+    }
+
+    return [
+      history,
+      board.toString(notation: notation, compact: compact || notation == .quess),
     ].joined(separator: "\n")
   }
 

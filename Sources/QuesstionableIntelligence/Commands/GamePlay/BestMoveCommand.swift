@@ -17,7 +17,7 @@ struct BestMoveCommand: RunnableCommand {
   }
 
   func run(_ state: EngineState) throws {
-    state.printBestMove()
+    try state.printBestMove()
   }
 
 }
